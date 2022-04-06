@@ -1,0 +1,63 @@
+#include<stdio.h>
+#include<stdlib.h>
+struct sll
+{
+    int data;
+    struct sll *next;
+};
+
+typedef struct sll node;
+
+int check_circular(node* head)
+{
+    if (head == NULL)
+       return 1;
+    node *n=head->next;
+    while (n!=NULL&&n!=head)
+       n=n->next;
+    return (n==head);
+}
+
+node* newNode(int data)
+{
+    node *temp = (node*)malloc(sizeof(node));
+    temp->data = data;
+    temp->next = NULL;
+    return temp;
+}
+
+void check_ll_circular(node* head)
+{
+    if(check_circular(head))
+        printf("\nlinked list is circular/has loop in it\n");
+    else
+        printf("\nlinked list is linear\n");
+}
+
+int main()
+{
+    node *head = newNode(1);
+    head->next = newNode(2);
+    head->next->next = newNode(3);
+    head->next->next->next = newNode(4);
+    
+    int c;
+    printf("\nmake your choice\n");
+    printf("\n1 - for passing head of leniar linked list as argument to check_circular()\n");
+    printf("\n2 - for passing head of looped linked list as argument to check_circular()\n\n");
+    scanf("%d",&c);
+    
+    switch(c)
+    {
+        case 1:check_ll_circular(head);
+        break;
+        case 2:
+        {
+            head->next->next->next->next = head;
+            check_ll_circular(head);
+        }
+        break;
+        default: printf("\ninvalid case please check the choice entered and try again\n");
+    }
+    return 0;
+}
